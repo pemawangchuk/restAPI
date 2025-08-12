@@ -22,3 +22,19 @@ def api_home(request):
     resp = dumps(data)
     
     return HttpResponse(resp, content_type='application/json')
+
+
+from django.views.generic import View
+
+class HomeView(View):
+    def get(self, request, *args, **kwargs):
+        data = {
+        "message": "Welcome to the API Home!",
+        "status": "success"
+        }
+        resp = dumps(data) 
+        
+        return HttpResponse(resp, content_type='application/json')
+    
+
+    

@@ -2,7 +2,7 @@ import requests
 import json
 
 BASEURL = "http://127.0.1:8000/"
-ENDPOINT = "api/"
+ENDPOINT = "apiCDB/"
 
 url = (BASEURL + ENDPOINT)
 response = requests.get(url)
