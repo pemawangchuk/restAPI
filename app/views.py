@@ -17,7 +17,7 @@ def home(request):
 
     return HttpResponse("Welcome to the  Home!", resp)
 
-from json import dumps
+from json import dumps, loads
 def api_home(request):
     data = {
         "message": "Welcome to the API Home!",
@@ -29,7 +29,7 @@ def api_home(request):
 
 
 from django.views.generic import View
-from app.mixin import httpMixinResponnse
+from app.mixin import MixinResponse, httpMixinResponnse
 
 class HomeView(httpMixinResponnse, View):
     def get(self, request, *args, **kwargs):
@@ -63,7 +63,23 @@ class EmployeeDetailSerializer(httpMixinResponnse, View):
     def get(self, request, id, *args, **kwargs):
         emp = Employee.objects.get(id=id)
         employee_data = serialize('json', [emp,], fields=('name', 'position', 'department'))
+
+        q_data = loads(employee_data)
+        data_list =[]
+
+        for obj in q_data:
+            obj_data = obj['fields']
+            data_list.append(obj_data)
+
+        employee_data = dumps(data_list)
         
         return HttpResponse(employee_data, content_type="application/json")
+    
+class EmployeeListSerializer(MixinResponse, View):
+    def get(self, request, *args, **kwargs):
+        emp = Employee.objects.all()
+        employee_data = self.render_to_pure_json_response(emp)
+        
+        return HttpResponse(employee_data)
 
     
