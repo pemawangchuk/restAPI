@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+
+
 # Create your views here.
 
 def home(request):
@@ -25,8 +27,9 @@ def api_home(request):
 
 
 from django.views.generic import View
+from app.mixin import httpMixinResponnse
 
-class HomeView(View):
+class HomeView(httpMixinResponnse, View):
     def get(self, request, *args, **kwargs):
         data = {
         "message": "Welcome to the API Home!",
@@ -34,7 +37,7 @@ class HomeView(View):
         }
         resp = dumps(data) 
         
-        return HttpResponse(resp, content_type='application/json')
+        return self.render_to_json_response(resp)
     
 
     
