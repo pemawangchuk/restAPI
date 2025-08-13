@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from app.models import Employee
+
 
 
 # Create your views here.
@@ -38,6 +40,22 @@ class HomeView(httpMixinResponnse, View):
         resp = dumps(data) 
         
         return self.render_to_json_response(resp)
+    
+
+
+class EmployeeDetail(httpMixinResponnse, View):
+    def get(self, request, id, *args, **kwargs):
+        emp = Employee.objects.get(id = id)
+
+        employee_data = {
+            "name": emp.name,
+            "position": emp.position,
+            "department": emp.department
+        }
+
+        emp = dumps(employee_data)
+        return self.render_to_json_response(emp)
+        
     
 
     
