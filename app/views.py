@@ -56,6 +56,14 @@ class EmployeeDetail(httpMixinResponnse, View):
         emp = dumps(employee_data)
         return self.render_to_json_response(emp)
         
-    
+from django.core.serializers import serialize
+
+
+class EmployeeDetailSerializer(httpMixinResponnse, View):
+    def get(self, request, id, *args, **kwargs):
+        emp = Employee.objects.get(id=id)
+        employee_data = serialize('json', [emp,], fields=('name', 'position', 'department'))
+        
+        return HttpResponse(employee_data, content_type="application/json")
 
     
