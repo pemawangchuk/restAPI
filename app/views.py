@@ -80,6 +80,6 @@ class EmployeeListSerializer(MixinResponse, View):
         emp = Employee.objects.all()
         employee_data = self.render_to_pure_json_response(emp)
         
-        return HttpResponse(employee_data)
+        return HttpResponse(employee_data, content_type="application/json")
 
     
